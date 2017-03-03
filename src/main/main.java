@@ -38,16 +38,19 @@ public class main extends Application{
         window.setTitle("P-S picker");
         Menu file = new Menu("Project");
 
-        MenuItem openNewData= new MenuItem("Open New Data    Ctrl+O");
-        openNewData.setOnAction(e -> openproject());
+        MenuItem openNewData= new MenuItem("Open New Data         Ctrl+N");
+        openNewData.setOnAction(e -> newproject());
 
-        MenuItem saveData=    new MenuItem("Save Project          Ctrl+S");
+        MenuItem opensaveData= new MenuItem("Open saved Project    Ctrl+O");
+        opensaveData.setOnAction(e -> openproject());
+
+        MenuItem saveData=    new MenuItem("Save Project               Ctrl+S");
         saveData.setOnAction(e -> saveproject());
 
-        MenuItem saveAsData = new MenuItem("Save As Project     Ctrl+A");
+        MenuItem saveAsData = new MenuItem("Save As Project          Ctrl+A");
         saveAsData.setOnAction(e -> saveasproject());
 
-        file.getItems().addAll(openNewData,saveData,saveAsData);
+        file.getItems().addAll(openNewData,opensaveData,saveData,saveAsData);
 
         MenuBar top = new MenuBar();
         top.getMenus().add(file);
@@ -83,6 +86,10 @@ public class main extends Application{
 
         scene = new Scene(layout,1000,500);
 
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN),
+                () -> newproject()
+        );
         scene.getAccelerators().put(
                 new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN),
                 () -> openproject()
@@ -136,7 +143,7 @@ public class main extends Application{
         return lineChart;
     }
 
-    public void openproject(){
+    public void newproject(){
         FileChooser filedir = new FileChooser();
         filedir.getExtensionFilters().add(new FileChooser.ExtensionFilter("ISF files", "*.isf"));
         filedir.setTitle("Open ISF file");
@@ -155,6 +162,10 @@ public class main extends Application{
     }
 
     public void saveproject(){
+
+    }
+
+    public void openproject(){
 
     }
 
