@@ -107,7 +107,6 @@ public class main extends Application{
             while ((text = bufferedReader.readLine()) != null && text.length()>0) {
                 String a[]=text.split(",");
                 series.getData().add(new XYChart.Data(Double.parseDouble(a[0]), Double.parseDouble(a[1])));
-                System.out.println("xvalue: "+Double.parseDouble(a[0])+" yvalue: "+Double.parseDouble(a[1]));
             }
         } catch (FileNotFoundException ex) {
 //            Logger.getLogger(JavaFX_OpenFile.class.getName()).log(Level.SEVERE, null, ex);
