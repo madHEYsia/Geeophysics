@@ -1,25 +1,23 @@
 package main;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class main extends Application{
 
@@ -27,6 +25,8 @@ public class main extends Application{
     public BorderPane layout;
     public Scene scene;
     public File selectedfile;
+    public HBox right;
+    public VBox vb;
 
     public static void main(String args[]){
         launch(args);
@@ -56,15 +56,30 @@ public class main extends Application{
 
         layout.setTop(top);
 
+        Button p= new Button("Tp");
+        Button s= new Button("Ts");
+        Button ss= new Button("Tss");
 
-        Button tp= new Button("Tp");
-        Button ts= new Button("Ts");
-        Button tss= new Button("Tss");
+        right = new HBox(10);
+        right.setPadding(new Insets(20,50,50,50));
+        right.setAlignment(Pos.TOP_CENTER);
+        right.disableProperty();
+        right.getChildren().addAll(p,s,ss);
 
-        HBox bottom = new HBox();
-        bottom.getChildren().addAll(tp,ts,tss);
+        vb = new VBox(20);
+        vb.setPadding(new Insets(10,0,50,50));
+        vb.setAlignment(Pos.BASELINE_LEFT);
+        Label tp = new Label("Tp : Not picked");
+        Label thap = new Label("Thap : Not Calculated");
+        Label mvhap = new Label("mVhaP : Not Calculated");
+        Label ts = new Label("Ts : Not picked");
+        Label thas = new Label("Thas : Not Calculated");
+        Label mvhas = new Label("mVhas : Not Calculated");
+        Label tss = new Label("Tss : Not picked");
+        Label thass = new Label("Thass : Not Calculated");
+        Label mvhass = new Label("mVhass : Not Calculated");
 
-        layout.setBottom(bottom);
+        vb.getChildren().addAll(right,tp,thap,mvhap,ts,thas,mvhas,tss,thass,mvhass);
 
         scene = new Scene(layout,1000,500);
 
@@ -87,7 +102,7 @@ public class main extends Application{
     public LineChart<Number,Number> datadisplay(){
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("time in micorsecond");
+        xAxis.setLabel("time in microsecond");
         yAxis.setLabel("milliVolt");
         //creating the chart
         final LineChart<Number,Number> lineChart =
@@ -123,20 +138,20 @@ public class main extends Application{
 
     public void openproject(){
         FileChooser filedir = new FileChooser();
-        filedir.getExtensionFilters().add(new FileChooser.ExtensionFilter("359-2_P_dry_0deg", "*.isf"));
-        filedir.setTitle("Open CISF file");
+        filedir.getExtensionFilters().add(new FileChooser.ExtensionFilter("ISF files", "*.isf"));
+        filedir.setTitle("Open ISF file");
         selectedfile =  filedir.showOpenDialog(window);
         if(selectedfile!= null){
-        LineChart<Number,Number> graph = datadisplay();
-        layout.setCenter(graph);
-        try {
-            scene = new Scene(layout, 1000, 500);
-        }
-        catch (IllegalArgumentException e ){}
-        window.setScene(scene);
-        window.show();
-        }
 
+            LineChart<Number,Number> graph = datadisplay();
+            layout.setCenter(graph);
+            layout.setRight(vb);
+            try {
+                scene = new Scene(layout, 1000, 500);
+            }
+            catch (IllegalArgumentException e ){}
+            window.setScene(scene);
+        }
     }
 
     public void saveproject(){
